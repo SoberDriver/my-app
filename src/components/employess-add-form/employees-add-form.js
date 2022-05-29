@@ -1,6 +1,7 @@
 import { Component } from 'react';
 
-import './employees-add-form.css'
+// import './employees-add-form.css'
+import './employees-add-form.scss';
 
 class EmployeesAddForm extends Component {
   constructor(props) {
@@ -20,16 +21,18 @@ class EmployeesAddForm extends Component {
 
   onAdd = (e) => {
     e.preventDefault();
-    this.props.onAddEmployee(this.state.name, this.state.salary);
-    this.setState({
-      name: '',
-      salary: '',
-    })
+    if(this.state.name && this.state.salary) {
+      this.props.onAddEmployee(this.state.name, this.state.salary);
+      this.setState({
+        name: '',
+        salary: '',
+      })
+    }
   }
 
   render() {
     const {name, salary} = this.state;
-
+    const isDisabled = !this.state.name || !this.state.salary;
     return (
       <div className="app-add-form">
         <h3>Добавьте нового сотрудника</h3>
@@ -51,7 +54,8 @@ class EmployeesAddForm extends Component {
           <button 
             type="submit" 
             className="btn btn-outline-light"
-            onClick={this.onAdd}>
+            onClick={this.onAdd}
+            disabled={isDisabled}>
             Добавить
           </button>
         </form>
